@@ -56,41 +56,41 @@ greet_bot = BotHandler('389820756:AAE-qQ3d35wYFyGFFF9hJuWRqhfVKalB3h0')
 metar_conn = METARHandler(METAR_URL)
 
 def main():
-    new_offset = None
+  new_offset = None
 
-    while True:
-      greet_bot.get_updates(new_offset)
+  while True:
+    greet_bot.get_updates(new_offset)
 
-      last_update = greet_bot.get_last_update()
+    last_update = greet_bot.get_last_update()
 
-      if last_update:
+    if last_update:
 
-        last_update_id = last_update['update_id']
-        last_chat_text = last_update['message']['text']
-        last_chat_id = last_update['message']['chat']['id']
-        last_chat_name = last_update['message']['chat']['first_name']
+      last_update_id = last_update['update_id']
+      last_chat_text = last_update['message']['text']
+      last_chat_id = last_update['message']['chat']['id']
+      last_chat_name = last_update['message']['chat']['first_name']
 
-        # print("TXT: {}".format(last_chat_text))
-        station = re.search('([A-Z]{4})', 
-        last_chat_text).group(0)
-        # print("Station: {}".format(station))
+      # print("TXT: {}".format(last_chat_text))
+      station = re.search('([A-Z]{4})', 
+      last_chat_text).group(0)
+      # print("Station: {}".format(station))
 
-        if station:
-          report = metar_conn.getMetar(station)
-          metar_output = "No weather for {}".format(station)
-          if report != None:
-            metar_output = report.string()
+      if station:
+        report = metar_conn.getMetar(station)
+        metar_output = "No weather for {}".format(station)
+        if report != None:
+          metar_output = report.string()
 
-          last_chat_name += " here it comes\n"+metar_output
-          greet_bot.send_message(last_chat_id, 'Hi {}'.format(last_chat_name))
+        last_chat_name += " here it comes\n"+metar_output
+        greet_bot.send_message(last_chat_id, 'Hi {}'.format(last_chat_name))
 
-        else:
-          greet_bot.send_message(last_chat_id, 'Hi {}, there was no station in your message.'.format(last_chat_name))
+      else:
+        greet_bot.send_message(last_chat_id, 'Hi {}, there was no station in your message.'.format(last_chat_name))
 
-        new_offset = last_update_id + 1
+      new_offset = last_update_id + 1
 
 if __name__ == '__main__':
-    try:
-      main()
-    except KeyboardInterrupt:
-      exit()
+  try:
+    main()
+  except KeyboardInterrupt:
+    exit()
