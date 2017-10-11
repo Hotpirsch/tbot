@@ -51,11 +51,11 @@ class METARHandler:
       if not report:
         return None
 
-  METAR_URL = "http://tgftp.nws.noaa.gov/data/observations/metar/stations"
-  greet_bot = BotHandler('389820756:AAE-qQ3d35wYFyGFFF9hJuWRqhfVKalB3h0')
-  metar_conn = METARHandler(METAR_URL)
+METAR_URL = "http://tgftp.nws.noaa.gov/data/observations/metar/stations"
+greet_bot = BotHandler('389820756:AAE-qQ3d35wYFyGFFF9hJuWRqhfVKalB3h0')
+metar_conn = METARHandler(METAR_URL)
 
-  def main():
+def main():
     new_offset = None
 
     while True:
@@ -89,7 +89,7 @@ class METARHandler:
 
         new_offset = last_update_id + 1
 
-  if __name__ == '__main__':
+if __name__ == '__main__':
     try:
       main()
     except KeyboardInterrupt:
