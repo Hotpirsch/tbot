@@ -2,6 +2,7 @@ import requests
 import re
 from metar import Metar
 
+
 class BotHandler:
 
     def __init__(self, token):
@@ -31,29 +32,32 @@ class BotHandler:
 
         return last_update
 
-  class METARHandler:
-      BASE_URL = ''
 
-      def __init__(self, url):
-          if url:
-              self.BASE_URL = url
+class METARHandler:
+    BASE_URL = ''
 
-      def getMetar (self, station):
-          report = ''
-          url = "%s/%s.TXT" % (self.BASE_URL, station)
-          resp = requests.get(url).text
-          for line in resp.splitlines():
-              if line.startswith(station):
-                  report = line.strip()
-                  obs = Metar.Metar(line)
-                  # print(obs.string())
-                  return obs
-              if not report:
-                  return None
+    def __init__(self, url):
+        if url:
+            self.BASE_URL = url
+
+    def getMetar(self, station):
+        report = ''
+        url = "%s/%s.TXT" % (self.BASE_URL, station)
+        resp = requests.get(url).text
+        for line in resp.splitlines():
+            if line.startswith(station):
+                report = line.strip()
+                obs = Metar.Metar(line)
+                # print(obs.string())
+                return obs
+            if not report:
+                return None
+
 
 METAR_URL = "http://tgftp.nws.noaa.gov/data/observations/metar/stations"
 greet_bot = BotHandler('389820756:AAE-qQ3d35wYFyGFFF9hJuWRqhfVKalB3h0')
 metar_conn = METARHandler(METAR_URL)
+
 
 def main():
     new_offset = None
@@ -71,8 +75,7 @@ def main():
             last_chat_name = last_update['message']['chat']['first_name']
 
             # print("TXT: {}".format(last_chat_text))
-            station = re.search('([A-Z]{4})',
-            last_chat_text).group(0)
+            station = re.search('([A-Z]{4})', last_chat_text).group(0)
             # print("Station: {}".format(station))
 
             if station:
