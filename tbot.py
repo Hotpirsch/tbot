@@ -47,11 +47,10 @@ class METARHandler:
         for line in resp.splitlines():
             if line.startswith(station):
                 report = line.strip()
-                obs = Metar.Metar(line)
-                # print(obs.string())
+                obs = Metar.Metar(report)
                 return obs
-            if not report:
-                return None
+        if not report:
+            return None
 
 
 METAR_URL = "http://tgftp.nws.noaa.gov/data/observations/metar/stations"
@@ -74,9 +73,7 @@ def main():
             last_chat_id = last_update['message']['chat']['id']
             last_chat_name = last_update['message']['chat']['first_name']
 
-            # print("TXT: {}".format(last_chat_text))
             station = re.search('([A-Z]{4})', last_chat_text).group(0)
-            # print("Station: {}".format(station))
 
             if station:
                 report = metar_conn.getMetar(station)
