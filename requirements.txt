@@ -3,7 +3,6 @@ chardet==3.0.4
 flake8==3.4.1
 idna==2.6
 mccabe==0.6.1
-metar==1.5.0
 pew==1.0.1
 pipenv==8.2.6
 pycodestyle==2.3.1

@@ -1,6 +1,6 @@
 import requests
 import re
-from metar import Metar
+import Metar
 
 
 class BotHandler:
