@@ -40,7 +40,7 @@ class METARHandler:
         if url:
             self.BASE_URL = url
 
-    def getMetar(self, station):
+    def getmetar(self, station):
         report = ''
         url = "%s/%s.TXT" % (self.BASE_URL, station)
         resp = requests.get(url).text
@@ -73,19 +73,20 @@ def main():
             last_chat_id = last_update['message']['chat']['id']
             last_chat_name = last_update['message']['chat']['first_name']
 
-            station = re.search('([A-Z]{4})', last_chat_text).group(0)
+            station = re.search('([A-Z]{4})', last_chat_text.upper()).group(0)
 
             if station:
-                report = metar_conn.getMetar(station)
+                report = metar_conn.getmetar(station)
                 metar_output = "No weather for {}".format(station)
                 if report is not None:
                     metar_output = report.string()
 
-                last_chat_name += " here it comes\n"+metar_output
+                last_chat_name += ", here it comes:\n"+metar_output
                 greet_bot.send_message(last_chat_id, 'Hi {}'.format(last_chat_name))
 
             else:
-                greet_bot.send_message(last_chat_id, 'Hi {}, there was no station in your message.'.format(last_chat_name))
+                greet_bot.send_message(last_chat_id,
+                                       'Hi {}, there was no station in your message.'.format(last_chat_name))
 
             new_offset = last_update_id + 1
 
