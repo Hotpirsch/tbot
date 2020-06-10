@@ -1,6 +1,7 @@
 import requests
 import re
 import Metar
+from airports import Airports, AirportNotFoundException
 
 
 class BotHandler:
@@ -56,6 +57,7 @@ class METARHandler:
 METAR_URL = "http://tgftp.nws.noaa.gov/data/observations/metar/stations"
 greet_bot = BotHandler('389820756:AAE-qQ3d35wYFyGFFF9hJuWRqhfVKalB3h0')
 metar_conn = METARHandler(METAR_URL)
+airports = Airports()
 
 
 def main():
@@ -73,7 +75,11 @@ def main():
             last_chat_id = last_update['message']['chat']['id']
             last_chat_name = last_update['message']['chat']['first_name']
 
-            station = re.search('([A-Z]{4})', last_chat_text.upper()).group(0)
+            # station = re.search('([A-Z]{4})', last_chat_text.upper()).group(0)
+            try:
+                station = airports.lookup(last_chat_text).icao
+            except airports.AirportNotFoundException:
+                station = ""
 
             if station:
                 report = metar_conn.getmetar(station)
@@ -86,7 +92,7 @@ def main():
 
             else:
                 greet_bot.send_message(last_chat_id,
-                                       'Hi {}, there was no station in your message.'.format(last_chat_name))
+                                       'Hi {}, I could not find an airport for that city.'.format(last_chat_name))
 
             new_offset = last_update_id + 1
 
