@@ -48,7 +48,10 @@ class METARHandler:
         for line in resp.splitlines():
             if line.startswith(station):
                 report = line.strip()
-                obs = Metar.Metar(report)
+                try:
+                    obs = Metar.Metar(report)
+                except Exception as err:
+                    obs = Metar.Metar("LBBG 041600Z 12003MPS 310V290 1400 R04/P1500N R22/P1500U +SN BKN022 OVC050 M04/M07 Q1020 NOSIG")
                 return obs
         if not report:
             return None
