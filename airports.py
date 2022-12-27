@@ -26,7 +26,7 @@ Other = namedtuple('Other', ['iata', 'name', 'country', 'subdiv', 'type', 'lat',
 # approximation for 2009, built on a country level. Most airports in DST-less regions in countries that generally
 # observe DST (eg. AL, HI in the USA, NT, QL in Australia, parts of Canada) are marked incorrectly.
 
-AIRPORT_LIST = json.loads(resource_string('pyairports', 'data/airports.json'))
+AIRPORT_LIST = json.loads(resource_string(__name__, 'data/airports.json'))
 
 
 class AirportNotFoundException(Exception):
@@ -43,7 +43,7 @@ class Airports(object):
 
     @staticmethod
     def _validate(city):
-        if not isinstance(city, (str, unicode)):
+        if not isinstance(city, str):
             raise ValueError("city must be a string, it is a {0}".format(type(city)))
         city = city.strip().upper()
         return city

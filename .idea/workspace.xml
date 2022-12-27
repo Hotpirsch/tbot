@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="27db4286-04f2-4a2f-a881-eb49aab54d2f" name="Default" comment="Added the Metar with changes to the Datatypes. That way it is speakable for assistants">
-      <change afterPath="$PROJECT_DIR$/airports.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/airports.json" afterDir="false" />
+    <list default="true" id="27db4286-04f2-4a2f-a881-eb49aab54d2f" name="Default" comment="First commit for the City based Metar search">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/tbotheroku.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tbotheroku.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Datatypes.py" beforeDir="false" afterPath="$PROJECT_DIR$/Datatypes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Station.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airports.py" beforeDir="false" afterPath="$PROJECT_DIR$/airports.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tbot.py" beforeDir="false" afterPath="$PROJECT_DIR$/tbot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,14 +26,26 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1bwttIBsjsf8opfGOJA2sI2clPE" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings module-name="tbotheroku" is-module-sdk="true">
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="tbotheroku" />
+      </console-settings>
+    </option>
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -41,7 +53,7 @@
       <recent name="$PROJECT_DIR$/data" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.trials">
+  <component name="RunManager" selected="Python.tbot">
     <configuration name="tbot" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="tbotheroku" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -49,9 +61,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="$USER_HOME$/.virtualenvs/pyairports/bin/python" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tbot.py" />
@@ -112,12 +124,13 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.tbot" />
         <item itemvalue="Python.trials" />
         <item itemvalue="Python.test_pyairports" />
-        <item itemvalue="Python.tbot" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -150,51 +163,40 @@
       <option name="project" value="LOCAL" />
       <updated>1518440287084</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="First commit for the City based Metar search">
+      <created>1591825852761</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1591825852761</updated>
+    </task>
+    <task id="LOCAL-00005" summary="reduced requirements.txt">
+      <created>1672142896539</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1672142896539</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Corrected indentation again and comparison to None" />
     <MESSAGE value="Changed the process type to worker" />
     <MESSAGE value="Added the Metar with changes to the Datatypes. That way it is speakable for assistants" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added the Metar with changes to the Datatypes. That way it is speakable for assistants" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="298" y="153" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1591814844831">
-      <screen x="0" y="27" width="1920" height="948" />
-    </state>
-    <state x="298" y="153" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1920.948@0.27.1920.948" timestamp="1591814844831" />
-    <state x="599" y="241" width="471" height="522" key="FileChooserDialogImpl" timestamp="1591814509101">
-      <screen x="0" y="27" width="1920" height="948" />
-    </state>
-    <state x="599" y="241" width="471" height="522" key="FileChooserDialogImpl/0.27.1920.948@0.27.1920.948" timestamp="1591814509101" />
-    <state width="1376" height="226" key="GridCell.Tab.0.bottom" timestamp="1591825126735">
-      <screen x="0" y="27" width="1920" height="948" />
-    </state>
-    <state width="1376" height="226" key="GridCell.Tab.0.bottom/0.27.1920.948@0.27.1920.948" timestamp="1591825126735" />
-    <state width="1376" height="226" key="GridCell.Tab.0.center" timestamp="1591825126735">
-      <screen x="0" y="27" width="1920" height="948" />
-    </state>
-    <state width="1376" height="226" key="GridCell.Tab.0.center/0.27.1920.948@0.27.1920.948" timestamp="1591825126735" />
-    <state width="1376" height="226" key="GridCell.Tab.0.left" timestamp="1591825126734">
-      <screen x="0" y="27" width="1920" height="948" />
-    </state>
-    <state width="1376" height="226" key="GridCell.Tab.0.left/0.27.1920.948@0.27.1920.948" timestamp="1591825126734" />
-    <state width="1376" height="226" key="GridCell.Tab.0.right" timestamp="1591825126735">
-      <screen x="0" y="27" width="1920" height="948" />
-    </state>
-    <state width="1376" height="226" key="GridCell.Tab.0.right/0.27.1920.948@0.27.1920.948" timestamp="1591825126735" />
-    <state x="641" y="176" width="387" height="645" key="RollbackChangesDialog" timestamp="1591816374052">
-      <screen x="0" y="27" width="1920" height="948" />
-    </state>
-    <state x="641" y="176" width="387" height="645" key="RollbackChangesDialog/0.27.1920.948@0.27.1920.948" timestamp="1591816374052" />
-    <state x="336" y="130" width="1007" height="737" key="SettingsEditor" timestamp="1591814868557">
-      <screen x="0" y="27" width="1920" height="948" />
-    </state>
-    <state x="336" y="130" width="1007" height="737" key="SettingsEditor/0.27.1920.948@0.27.1920.948" timestamp="1591814868557" />
-    <state x="503" y="237" width="672" height="678" key="search.everywhere.popup" timestamp="1591815013289">
-      <screen x="0" y="27" width="1920" height="948" />
-    </state>
-    <state x="503" y="237" width="672" height="678" key="search.everywhere.popup/0.27.1920.948@0.27.1920.948" timestamp="1591815013289" />
+    <MESSAGE value="First commit for the City based Metar search" />
+    <MESSAGE value="reduced requirements.txt" />
+    <option name="LAST_COMMIT_MESSAGE" value="reduced requirements.txt" />
   </component>
 </project>

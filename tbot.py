@@ -75,10 +75,10 @@ def main():
             last_chat_id = last_update['message']['chat']['id']
             last_chat_name = last_update['message']['chat']['first_name']
 
-            # station = re.search('([A-Z]{4})', last_chat_text.upper()).group(0)
+            station = re.search('([A-Z]{4})', last_chat_text.upper()).group(0)
             try:
                 station = airports.lookup(last_chat_text).icao
-            except airports.AirportNotFoundException:
+            except AirportNotFoundException:
                 station = ""
 
             if station:
@@ -95,6 +95,7 @@ def main():
                                        'Hi {}, I could not find an airport for that city.'.format(last_chat_name))
 
             new_offset = last_update_id + 1
+
 
 if __name__ == '__main__':
     try:
