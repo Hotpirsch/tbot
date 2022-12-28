@@ -50,9 +50,9 @@ class METARHandler:
                 report = line.strip()
                 try:
                     obs = Metar.Metar(report)
+                    return obs
                 except Exception as err:
-                    obs = Metar.Metar("LBBG 041600Z 12003MPS 310V290 1400 R04/P1500N R22/P1500U +SN BKN022 OVC050 M04/M07 Q1020 NOSIG")
-                return obs
+                    return None
         if not report:
             return None
 
@@ -71,14 +71,15 @@ def main():
 
         last_update = greet_bot.get_last_update()
 
-        if last_update:
+        if 'message' in last_update.keys():
+            print(last_update)
 
             last_update_id = last_update['update_id']
             last_chat_text = last_update['message']['text']
             last_chat_id = last_update['message']['chat']['id']
             last_chat_name = last_update['message']['chat']['first_name']
 
-            station = re.search('([A-Z]{4})', last_chat_text.upper()).group(0)
+            # station = re.search('([A-Z]{4})', last_chat_text.upper()).group(0)
             try:
                 station = airports.lookup(last_chat_text).icao
             except AirportNotFoundException:
@@ -89,6 +90,8 @@ def main():
                 metar_output = "No weather for {}".format(station)
                 if report is not None:
                     metar_output = report.string()
+                else:
+                    metar_output = "Could not understand the weather report."
 
                 last_chat_name += ", here it comes:\n"+metar_output
                 greet_bot.send_message(last_chat_id, 'Hi {}'.format(last_chat_name))
