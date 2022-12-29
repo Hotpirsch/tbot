@@ -70,28 +70,34 @@ def main():
         greet_bot.get_updates(new_offset)
 
         last_update = greet_bot.get_last_update()
-
-        if 'message' in last_update.keys():
-            print(last_update)
+        print(last_update)
+        # location shared: {'update_id': 857510542, 'message': {'message_id': 421, 'from': {'id': 314410973, 'is_bot': False, 'first_name': 'Christoph', 'last_name': 'Krüger', 'username': 'Hotpirsch', 'language_code': 'de'}, 'chat': {'id': 314410973, 'first_name': 'Christoph', 'last_name': 'Krüger', 'username': 'Hotpirsch', 'type': 'private'}, 'date': 1672314033, 'location': {'latitude': 49.968423, 'longitude': 8.059349}}}
+        if last_update and 'message' in last_update.keys():
 
             last_update_id = last_update['update_id']
-            last_chat_text = last_update['message']['text']
             last_chat_id = last_update['message']['chat']['id']
             last_chat_name = last_update['message']['chat']['first_name']
+            try:
+                if 'text' in last_update['message'].keys():
+                    last_chat_text = last_update['message']['text']
+                    station = airports.lookup(last_chat_text).icao
+
+                if 'location' in last_update['message'].keys():
+                    loc_lat = last_update['message']['location']['latitude']
+                    loc_lon = last_update['message']['location']['longitude']
+                    station = airports.closeto(loc_lat, loc_lon)
 
             # station = re.search('([A-Z]{4})', last_chat_text.upper()).group(0)
-            try:
-                station = airports.lookup(last_chat_text).icao
             except AirportNotFoundException:
                 station = ""
 
             if station:
                 report = metar_conn.getmetar(station)
-                metar_output = "No weather for {}".format(station)
+                # metar_output = "No weather for {}".format(station)
                 if report is not None:
                     metar_output = report.string()
                 else:
-                    metar_output = "Could not understand the weather report."
+                    metar_output = "Could not understand the weather report for station {}.".format(station)
 
                 last_chat_name += ", here it comes:\n"+metar_output
                 greet_bot.send_message(last_chat_id, 'Hi {}'.format(last_chat_name))

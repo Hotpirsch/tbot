@@ -69,15 +69,33 @@ class Airports(object):
 
         return table.get(city)
 
+    def closeto(self, lat, lon):
+        diff = 360.0
+        icao = 'LMAA'
+        flat = float(lat)
+        flon = float(lon)
+        for airport in AIRPORT_LIST:
+            new_diff = abs(float(airport[5]) - flat) + abs(float(airport[6]) - flon)
+            if new_diff < diff:
+                diff = new_diff
+                icao = airport[4]
+
+        return icao
+
 
 def main():  # pragma: no cover
     from argparse import ArgumentParser
-    parser = ArgumentParser("Airport lookup by city name")
-    parser.add_argument("city", action="store")
+    parser = ArgumentParser("Airport lookup by city name or position")
+    parser.add_argument("--city", action="store")
+    parser.add_argument("--lat", action="store")
+    parser.add_argument("--lon", action="store")
     args = parser.parse_args()
     airports = Airports()
     try:
-        print(airports.lookup(args.city))
+        if args.city:
+            print(airports.lookup(args.city))
+        if args.lat and args.lon:
+            print(airports.closeto(args.lat,args.lon))
     except AirportNotFoundException:
         print("Not in core airport list")
 
