@@ -47,10 +47,9 @@ Redistributions in binary form must reproduce the above copyright notice, this l
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """ % __author__
 
+import re
 import datetime
-
 from Datatypes import *
-
 
 ## Exceptions
 
@@ -176,6 +175,7 @@ TS_LOC_RE = re.compile(r"""TS(\s+(?P<loc>( OHD | VC | DSNT\s+ | \s+AND\s+ |
                                            [NSEW][EW]? (-[NSEW][EW]?)* )+))?
                                           ( \s+MOV\s+(?P<dir>[NSEW][EW]?) )?\s+""",
                            re.VERBOSE)
+SNOWDEPTH_RE = re.compile(r"""^4/(?P<snowdepth>\d\d\d)\s+""")
 
 ## translation of weather location codes
 
@@ -343,6 +343,7 @@ class Metar(object):
       self.precip_3hr = None             # precipitation over the last 3 hours
       self.precip_6hr = None             # precipitation over the last 6 hours
       self.precip_24hr = None            # precipitation over the last 24 hours
+      self.snowdepth = None              # snow depth (distance)
       self._trend = False                # trend groups present (bool)
       self._trend_groups = []            # trend forecast groups
       self._remarks = []                 # remarks (list of strings)
@@ -360,11 +361,11 @@ class Metar(object):
       
       code = self.code+" "    # (the regexps all expect trailing spaces...)
       try:
-          ngroup = len(Metar.handlers)
+          ngroup = len(self.handlers)
           igroup = 0
           ifailed = -1
           while igroup < ngroup and code: 
-              pattern, handler, repeatable = Metar.handlers[igroup]
+              pattern, handler, repeatable = self.handlers[igroup]
               if debug: print(handler.__name__,":",code)
               m = pattern.match(code)
               while m:
@@ -394,7 +395,7 @@ class Metar(object):
                                 #  groups, we'll try parsing this group as a remark
           if pattern == REMARK_RE or self.press:
               while code:
-                  for pattern, handler in Metar.remark_handlers:
+                  for pattern, handler in self.remark_handlers:
                       if debug: print(handler.__name__,":",code)
                       m = pattern.match(code)
                       if m:
@@ -408,10 +409,10 @@ class Metar(object):
           raise err
       if self._unparsed_groups:
           code = ' '.join(self._unparsed_groups)
-          raise ParserError("Unparsed groups in body '"+code+"' while processing '"+metarcode+"'")
+          # raise ParserError("Unparsed groups in body '"+code+"' while processing '"+metarcode+"'")
 
   def _do_trend_handlers(self, code):
-      for pattern, handler, repeatable in Metar.trend_handlers:
+      for pattern, handler, repeatable in self.trend_handlers:
           if debug: print(handler.__name__,":",code)
           m = pattern.match(code)
           while m:
@@ -880,6 +881,13 @@ class Metar(object):
           self._remarks.append("Automated station")
       elif d['type'] == "2":
           self._remarks.append("Automated station (type 2)")
+
+  def _handleSnowDepthRemark(self, d):
+      """
+      Parse the 4/ group snowdepth report
+      """
+      self.snowdepth = distance(float(d['snowdepth']), 'IN')
+      self._remarks.append(" snowdepth %s" % (self.snowdepth, ))
       
   def _unparsedRemark( self, d ):
       """
@@ -929,6 +937,7 @@ class Metar(object):
                       (PRESS_3HR_RE,    _handlePress3hrRemark),
                       (TEMP_6HR_RE,     _handleTemp6hrRemark),
                       (TEMP_24HR_RE,    _handleTemp24hrRemark),
+                      (SNOWDEPTH_RE,    _handleSnowDepthRemark),
                       (UNPARSED_RE,     _unparsedRemark) ]
   
   ## functions that return text representations of conditions for output
@@ -939,8 +948,8 @@ class Metar(object):
       """
       lines = []
       lines.append("station: %s" % self.station_id)
-      # if self.type:
-      #     lines.append("type: %s" % self.report_type())
+      if self.type:
+          lines.append("type: %s" % self.report_type())
       if self.time:
           lines.append("time: %s" % self.time.ctime())
       if self.temp:
@@ -986,7 +995,7 @@ class Metar(object):
           lines.append("- "+self.remarks("\n- "))
       if self._unparsed_remarks:
           lines.append("- "+' '.join(self._unparsed_remarks))
-      ## lines.append("METAR: "+self.code)
+      lines.append("METAR: "+self.code)
       return "\n".join(lines)
 
   def report_type( self ):
