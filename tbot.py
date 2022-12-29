@@ -93,11 +93,10 @@ def main():
 
             if station:
                 report = metar_conn.getmetar(station)
-                # metar_output = "No weather for {}".format(station)
                 if report is not None:
                     metar_output = report.string()
                 else:
-                    metar_output = "Could not understand the weather report for station {}.".format(station)
+                    metar_output = "No weather report for station {}.".format(station)
 
                 last_chat_name += ", here it comes:\n"+metar_output
                 greet_bot.send_message(last_chat_id, 'Hi {}'.format(last_chat_name))

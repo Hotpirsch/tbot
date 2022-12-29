@@ -995,7 +995,7 @@ class Metar(object):
           lines.append("- "+self.remarks("\n- "))
       if self._unparsed_remarks:
           lines.append("- "+' '.join(self._unparsed_remarks))
-      lines.append("METAR: "+self.code)
+      # lines.append("METAR: "+self.code)
       return "\n".join(lines)
 
   def report_type( self ):
