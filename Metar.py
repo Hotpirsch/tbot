@@ -948,8 +948,8 @@ class Metar(object):
       """
       lines = []
       lines.append("station: %s" % self.station_id)
-      if self.type:
-          lines.append("type: %s" % self.report_type())
+      # if self.type:
+      #     lines.append("type: %s" % self.report_type())
       if self.time:
           lines.append("time: %s" % self.time.ctime())
       if self.temp:
